@@ -94,7 +94,7 @@
         ],
       },
     ];
-    console.log(treeData, 'data');
+   
   
     let isDragging = false;
     onMount(() => {
@@ -118,7 +118,7 @@
       
       //appending everything to g(a group element) serves as container for other SVG elements
       let treeGroup = svg.append('g');
-      console.log(root.links(), 'links');
+      
   
       // These are how the linkes are created
       treeGroup
@@ -185,7 +185,7 @@
       svg.call(
         d3.drag().on('drag', (/** @type {{ x: any; y: any; }} */ event) => {
           svg.attr('transform', `translate(${event.x},${event.y})`);
-          event.preventDefault();
+      
         })
       );
       
@@ -197,10 +197,8 @@
      
       root.each(node => {
   
-        console.log(node, 'node')
-        console.log(node.x, '')
         if (Math.abs(node.x) > maxX) maxX = Math.abs(node.x);
-        console.log(maxX, 'hello')
+        
         
   
      
@@ -209,7 +207,7 @@
   
   
       // Set the SVG width to accommodate the entire tree
-       svg.attr('width', maxX +5000); 
+       svg.attr('width', maxX + 2000 ); 
   
      let maxY = -Infinity
      root.each(node => {
@@ -236,6 +234,9 @@
   <svg id="demo1" > </svg>
   
   <style>
+    #demo1 {
+      border: 5px solid red;
+    }
       
     
   </style>

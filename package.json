@@ -24,6 +24,7 @@
     "@types/chrome": "^0.0.263",
     "@types/node": "^20.11.27",
     "d3": "^7.9.0",
+    "fs": "^0.0.1-security",
     "rollup": "^4.13.0",
     "svelte-splitpanes": "^0.8.0"
   }
