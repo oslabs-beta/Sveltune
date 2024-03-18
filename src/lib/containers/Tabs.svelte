@@ -19,8 +19,6 @@
            component: SingleTab,
           },
     };
-
-    // $:items;
     
     </script>
     
