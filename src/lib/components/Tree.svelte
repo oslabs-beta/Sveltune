@@ -22,7 +22,6 @@
   RootComponentStore.subscribe((data) => {
     console.log('logging current data from Store from Tree component: ', data);
     testTreeData = data;
-    testTreeData = testTreeData;
     console.log('logging test tree data obj: ', testTreeData);
 
     const updatedTreeData: TreeData = {
@@ -30,18 +29,6 @@
       children: [],
     };
 
-    (function objDiver(...treeData: any) {
-      console.log('incoming tree data: ', treeData);
-      for (const node of treeData) {
-        if (node.children) {
-          updatedTreeData.tagName = node.tagName;
-          updatedTreeData.children = node.children.map((child: TreeData[]) =>
-            objDiver(child)
-          );
-        }
-        updatedTreeData.tagName = node.tagName;
-      }
-    })(testTreeData);
 
     console.log('logging updated tree data: ', updatedTreeData);
   });
