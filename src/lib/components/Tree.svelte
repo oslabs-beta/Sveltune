@@ -13,25 +13,31 @@
     children: TreeData[];
   }
 
-  // hardcoding the tree at the moment
-
-  // import 'message' from layout
-  // function to build new treeData object
-  let testTreeData: any;
+  let treeData: TreeData;
 
   RootComponentStore.subscribe((data) => {
-    console.log('logging current data from Store from Tree component: ', data);
-    testTreeData = data;
-    console.log('logging test tree data obj: ', testTreeData);
+    // console.log('logging current data from Store from Tree component: ', data);
+    treeData = data;
 
-    const updatedTreeData: TreeData = {
-      tagName: '',
-      children: [],
-    };
-
-
-    console.log('logging updated tree data: ', updatedTreeData);
+    if (treeData) {
+      const updatedTreeData: TreeData = objDiver(treeData);
+      console.log('logging updated tree data: ', updatedTreeData);
+    }
   });
+
+  function objDiver(data: any): TreeData {
+    if (typeof data === 'object') {
+      console.log(data, 'mydata');
+      const componentData: TreeData = {
+        tagName: data.tagName, // Handle missing tagName
+        children: [],
+      };
+      if (data.children) {
+        componentData.children = data.children.map(objDiver);
+      }
+      return componentData;
+    }
+  }
 
   // let treeData = {
   //   rootComponent: {
