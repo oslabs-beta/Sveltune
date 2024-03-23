@@ -4,7 +4,7 @@
   the middle man of this Chrome extension
 */
 console.log('Hello from contentScriptIsolate');
-let port = null;
+let port = null;  
 // Listens to messages from ContentScriptMain
 // and forwards them to other parts of the extension
 window.addEventListener('message', async (msg) => {
@@ -40,10 +40,14 @@ window.addEventListener('message', async (msg) => {
       });
       break;
     case 'handleBrowserRefresh':
+      console.log(
+        'handleBrowserRefresh message recieved in contentScriptIsolate: ',
+        Date.now()
+      );
       chrome.runtime.sendMessage({
         type: msg.data.type,
-      })
-    break;
+      });
+      break;
     default:
       break;
   }
@@ -86,12 +90,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
       break;
 
-     case 'handleBrowserRefresh':
+    case 'handleBrowserRefresh':
       window.postMessage({
         type: request.message,
-        source: 'contentScriptIsolate.js'
+        source: 'contentScriptIsolate.js',
       });
-     break;
+      break;
   }
 });
 

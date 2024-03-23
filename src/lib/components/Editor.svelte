@@ -27,17 +27,6 @@
     console.log('editor id: ', id);
   });
 
-  onMount(() => {
-    // default currentData to root component stores topmost tagName property
-    
-
-    // const unsubscribe = SelectedNodeAttributes.subscribe((data: any) => {
-    //   currentData = data;
-    //   console.log('Data from SelectedNodeAttributes: ', currentData);
-    //   id = currentData.id;
-    // });
-    // return unsubscribe;
-  });
 </script>
 
 <main>

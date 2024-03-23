@@ -10,7 +10,8 @@
   "permissions": [
     "tabs", 
     "activeTab",
-    "scripting"
+    "scripting",
+    "nativeMessaging"
   ],
   "devtools_page": "DevtoolsPanel/devtools.html",
   "background": {

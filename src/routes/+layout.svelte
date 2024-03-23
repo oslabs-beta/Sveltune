@@ -20,12 +20,17 @@
   // });
 
   SvelteVersionStore.subscribe((data) => {
-    console.log('logging svelte version: ', data);
-    svelteVersion = data;
+    if (data) {
+      console.log('svelte version from layout: ', data);
+      svelteVersion = data;
+    }
+    // console.log('svelte version from layout: ', data);
+    // svelteVersion = data;
   });
 
   // Function to set up the panel
   async function setUpPanel() {
+    console.log('setUpPanel hit', Date.now());
     try {
       const [tab] = await chrome.tabs.query({
         active: true,
@@ -44,6 +49,7 @@
   // Message listener function
   function messageListener(message: any) {
     if (message.type === 'returnSvelteVersion') {
+      console.log('returnSvelteVersion message receieved', Date.now(), message);
       svelteVersion = message.svelteVersion;
       SvelteVersionStore.update((currentData) => {
         return svelteVersion;
@@ -51,35 +57,56 @@
     }
 
     if (message.type === 'updateRootComponent') {
-      rootComponent = message.rootComponent;
-      if (rootComponent) {
-        RootComponentStore.update((currentData) => {
-          return rootComponent;
-        });
-        // rootData_Editor.set_rootData_Editor(rootComponent)
-        // custom_rootData_Editor.set_rootData_Editor({
-        //   hello: 'change HI',
-        //   ...rootComponent,
-        // });
-        // createAndSaveNewSnapshot(rootComponent);
-      }
-    } else if (message.type === 'returnRootComponent') {
+      console.log('updateRootComponent message receieved', Date.now(), message);
       rootComponent = message.rootComponent;
 
       if (rootComponent) {
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        // custom_rootData_Editor.set_rootData_Editor({
-        //   hello: 'hello there',
-        //   ...rootComponent,
-        // });
+      }
+    } else if (message.type === 'returnRootComponent') {
+      // console.log('returnRootComponent message receieved', Date.now(), message);
+      // rootComponent = message.rootComponent;
+
+      if (rootComponent) {
+        console.log(
+          'returnRootComponent message receieved',
+          Date.now().toLocaleString(),
+          message
+        );
+        rootComponent = message.rootComponent;
+        RootComponentStore.update((currentData) => {
+          return rootComponent;
+        });
       }
     } else if (message.type === 'returnTempRoot') {
+      console.log(
+        'returnTempRoot message receieved',
+        Date.now().toLocaleString(),
+        message
+      );
       const tempRoot = message.rootComponent;
     } else if (message.type === 'handleBrowserRefresh') {
-      RootComponentStore.set({});
-      SvelteVersionStore.set(null);
+      console.log(
+        'handleBrowserRefresh message receieved',
+        Date.now(),
+        message
+      );
+
+      RootComponentStore.update((currentData) => {
+        return {};
+      });
+
+      SvelteVersionStore.update((currentData) => {
+        return '...';
+      });
+
+      chrome.runtime.sendMessage({
+        type: 'getRootComponent',
+        source: 'layout.svelte',
+      });
+
       setUpPanel();
     }
   }

@@ -10,10 +10,12 @@ import { getNode, getSvelteVersion, getRootNodes } from 'svelte-listener';
 console.log('Hello from contentScript!');
 
 window.addEventListener('beforeunload', (event) => {
+  console.log('beforeunload message sent: ', Date.now());
   window.postMessage({
     type: 'handleBrowserRefresh',
     source: 'contentScript.js',
   });
+  chrome.runtime.reload();
 });
 
 // @ts-ignore - possibly find an alternative
@@ -89,6 +91,7 @@ function shouldUseCapture() {
 let pageLoaded = false;
 // At this time, this content script only gets Svelte component data once
 window.addEventListener('load', (event) => {
+  console.log('load event listener added: ', Date.now(), pageLoaded);
   pageLoaded = true;
 });
 

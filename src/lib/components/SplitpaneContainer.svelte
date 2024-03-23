@@ -8,8 +8,12 @@
   let svelteVersion: number;
 
   SvelteVersionStore.subscribe((data) => {
-    console.log('logging svelte version: ', data);
-    svelteVersion = data;
+    if (data) {
+      svelteVersion = data;
+      console.log('logging svelte version from splitpane container: ', data);
+    }
+    // console.log('svelte version from splitpane container: ', data);
+    // svelteVersion = data;
   });
 </script>
 
